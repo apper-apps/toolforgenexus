@@ -26,39 +26,64 @@ const ToolWorkspace = ({
     setResults([]);
   };
 
-  const handleProcess = async () => {
+const handleProcess = async () => {
     if (!files.length) return;
+
+    // Validate file sizes before processing
+    const totalSize = files.reduce((acc, file) => acc + file.size, 0);
+    const maxTotalSize = 100 * 1024 * 1024; // 100MB total limit
+    
+    if (totalSize > maxTotalSize) {
+      console.error("Total file size exceeds limit");
+      // toast.error("Total file size too large. Please reduce file sizes or number of files.");
+      return;
+    }
 
     setProcessing(true);
     setProgress(0);
 
     try {
-      // Simulate progress
+      // Enhanced progress simulation with realistic timing
+      let currentProgress = 0;
       const progressInterval = setInterval(() => {
-        setProgress(prev => {
-          if (prev >= 90) {
-            clearInterval(progressInterval);
-            return 90;
-          }
-          return prev + 10;
-        });
-      }, 200);
+        currentProgress += Math.random() * 15 + 5; // Variable progress increments
+        if (currentProgress >= 85) {
+          clearInterval(progressInterval);
+          setProgress(85);
+        } else {
+          setProgress(currentProgress);
+        }
+      }, 150);
 
-      const processedResults = await onProcessFiles(files);
+      // Prepare files with data when needed
+      const filesWithData = await Promise.all(
+        files.map(async (file) => {
+          if (!file.data && file.file) {
+            // Convert File to ArrayBuffer only when needed
+            const arrayBuffer = await file.file.arrayBuffer();
+            return { ...file, data: arrayBuffer };
+          }
+          return file;
+        })
+      );
+
+      const processedResults = await onProcessFiles(filesWithData);
       
       clearInterval(progressInterval);
       setProgress(100);
       
       setTimeout(() => {
-        setResults(processedResults);
+        setResults(Array.isArray(processedResults) ? processedResults : [processedResults]);
         setProcessing(false);
         setProgress(0);
-      }, 500);
+        // toast.success(`Successfully processed ${files.length} file(s)`);
+      }, 300);
 
     } catch (error) {
       setProcessing(false);
       setProgress(0);
       console.error("Processing failed:", error);
+      // toast.error("Processing failed. Please try again.");
     }
   };
 

@@ -37,42 +37,81 @@ const FileDropZone = ({
     processFiles(files);
   }, []);
 
-  const processFiles = async (files) => {
+const processFiles = async (files) => {
     setIsProcessing(true);
     
-    // Filter files based on type and size
-    const validFiles = files.filter(file => {
-      if (file.size > maxSize) return false;
-      if (acceptedTypes !== "*") {
-        const types = acceptedTypes.split(",").map(t => t.trim());
-        return types.some(type => file.type.includes(type));
-      }
-      return true;
-    });
+    try {
+      // Filter files based on type and size with better validation
+      const validFiles = files.filter(file => {
+        if (file.size > maxSize) {
+          console.warn(`File ${file.name} exceeds size limit of ${formatFileSize(maxSize)}`);
+          return false;
+        }
+        if (acceptedTypes !== "*") {
+          const types = acceptedTypes.split(",").map(t => t.trim().toLowerCase());
+          const fileType = file.type.toLowerCase();
+          const fileExtension = file.name.split('.').pop()?.toLowerCase();
+          
+          const isValidType = types.some(type => 
+            fileType.includes(type) || 
+            fileExtension === type ||
+            type.includes(fileExtension)
+          );
+          
+          if (!isValidType) {
+            console.warn(`File ${file.name} type not supported`);
+            return false;
+          }
+        }
+        return true;
+      });
 
-    // Limit number of files
-    const selectedFiles = validFiles.slice(0, maxFiles);
+      // Limit number of files
+      const selectedFiles = validFiles.slice(0, maxFiles);
+      
+      // Process files efficiently without unnecessary ArrayBuffer conversion
+      const processedFiles = await Promise.all(
+        selectedFiles.map(async (file) => {
+          // Only convert to ArrayBuffer when actually needed for processing
+          // For most cases, keep the File object which is more efficient
+          const preview = file.type.startsWith("image/") ? URL.createObjectURL(file) : null;
+          
+          return {
+            id: Date.now() + Math.random(),
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            file: file, // Keep original File object
+            data: null, // Lazy load ArrayBuffer only when needed
+            preview,
+            status: "ready"
+          };
+        })
+      );
+
+      setIsProcessing(false);
+      onFilesSelected(processedFiles);
+      
+    } catch (error) {
+      setIsProcessing(false);
+      console.error("File processing failed:", error);
+      // Here you would typically show a toast notification
+      // toast.error("Failed to process files. Please try again.");
+    }
+  };
+
+  // Helper function to convert File to ArrayBuffer when needed
+  const getFileData = async (processedFile) => {
+    if (processedFile.data) {
+      return processedFile.data;
+    }
     
-    // Convert to our format
-    const processedFiles = await Promise.all(
-      selectedFiles.map(async (file) => {
-        const arrayBuffer = await file.arrayBuffer();
-        const preview = file.type.startsWith("image/") ? URL.createObjectURL(file) : null;
-        
-        return {
-          id: Date.now() + Math.random(),
-          name: file.name,
-          size: file.size,
-          type: file.type,
-          data: arrayBuffer,
-          preview,
-          status: "ready"
-        };
-      })
-    );
-
-    setIsProcessing(false);
-    onFilesSelected(processedFiles);
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(new Error("Failed to read file"));
+      reader.readAsArrayBuffer(processedFile.file);
+    });
   };
 
   const formatFileSize = (bytes) => {
