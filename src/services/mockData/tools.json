@@ -1,0 +1,110 @@
+[
+  {
+    "Id": 1,
+    "name": "Image Compressor",
+    "category": "image",
+    "description": "Reduce file size while maintaining quality. Perfect for web optimization and storage savings.",
+    "icon": "Minimize2",
+    "route": "/tools/image-compress",
+    "popular": true
+  },
+  {
+    "Id": 2,
+    "name": "Format Converter",
+    "category": "image",
+    "description": "Convert between JPG, PNG, WebP, and BMP formats instantly with high quality output.",
+    "icon": "RefreshCw",
+    "route": "/tools/image-convert",
+    "popular": true
+  },
+  {
+    "Id": 3,
+    "name": "PDF Merger",
+    "category": "pdf",
+    "description": "Combine multiple PDF files into a single document with drag-and-drop ordering.",
+    "icon": "Fileplus",
+    "route": "/tools/pdf-merge",
+    "popular": true
+  },
+  {
+    "Id": 4,
+    "name": "PDF Splitter",
+    "category": "pdf",
+    "description": "Extract specific pages or split PDF into multiple files by page ranges.",
+    "icon": "Scissors",
+    "route": "/tools/pdf-split",
+    "popular": false
+  },
+  {
+    "Id": 5,
+    "name": "Base64 Encoder",
+    "category": "text",
+    "description": "Encode text or files to Base64 format for data transmission and storage.",
+    "icon": "Lock",
+    "route": "/tools/base64-encode",
+    "popular": false
+  },
+  {
+    "Id": 6,
+    "name": "Base64 Decoder",
+    "category": "text",
+    "description": "Decode Base64 strings back to original text or download as files.",
+    "icon": "Unlock",
+    "route": "/tools/base64-decode",
+    "popular": false
+  },
+  {
+    "Id": 7,
+    "name": "Image Resizer",
+    "category": "image",
+    "description": "Resize images by percentage, pixels, or preset dimensions while maintaining aspect ratio.",
+    "icon": "Move",
+    "route": "/tools/image-resize",
+    "popular": true
+  },
+  {
+    "Id": 8,
+    "name": "PDF to Images",
+    "category": "pdf",
+    "description": "Convert PDF pages to high-quality JPG or PNG images for easy sharing.",
+    "icon": "Image",
+    "route": "/tools/pdf-to-images",
+    "popular": false
+  },
+  {
+    "Id": 9,
+    "name": "Text Counter",
+    "category": "text",
+    "description": "Count characters, words, paragraphs, and analyze text statistics instantly.",
+    "icon": "Hash",
+    "route": "/tools/text-counter",
+    "popular": false
+  },
+  {
+    "Id": 10,
+    "name": "QR Code Generator",
+    "category": "converter",
+    "description": "Generate QR codes for text, URLs, or data with customizable size and format options.",
+    "icon": "QrCode",
+    "route": "/tools/qr-generator",
+    "popular": true
+  },
+  {
+    "Id": 11,
+    "name": "Color Palette Extractor",
+    "category": "image",
+    "description": "Extract dominant colors from images to create beautiful color palettes.",
+    "icon": "Palette",
+    "route": "/tools/color-extractor",
+    "popular": false
+  },
+  {
+    "Id": 12,
+    "name": "URL Shortener",
+    "category": "text",
+    "description": "Create short, memorable URLs for easier sharing and tracking.",
+    "icon": "Link",
+    "route": "/tools/url-shortener",
+    "popular": true
+  }
+]

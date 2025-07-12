@@ -1,0 +1,102 @@
+@import 'react-toastify/dist/ReactToastify.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom toast styling */
+.Toastify__toast {
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  min-height: 64px;
+  padding: 16px;
+}
+
+.Toastify__toast-container {
+  width: 340px;
+  z-index: 9999;
+}
+
+.Toastify__toast--success {
+  background: linear-gradient(135deg, #4ECB71 0%, #45B865 100%);
+}
+
+.Toastify__toast--error {
+  background: linear-gradient(135deg, #FF4747 0%, #E63946 100%);
+}
+
+.Toastify__toast--warning {
+  background: linear-gradient(135deg, #FFB800 0%, #FF9500 100%);
+}
+
+.Toastify__toast--info {
+  background: linear-gradient(135deg, #5B67EA 0%, #4C59D6 100%);
+}
+
+.Toastify__progress-bar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+/* File drop zone animations */
+.file-drop-zone {
+  transition: all 0.2s ease-out;
+}
+
+.file-drop-zone.dragover {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(91, 103, 234, 0.3);
+  border-color: #5B67EA;
+  background: linear-gradient(135deg, rgba(91, 103, 234, 0.05) 0%, rgba(76, 89, 214, 0.05) 100%);
+}
+
+/* Processing animation */
+@keyframes pulse-processing {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.processing-pulse {
+  animation: pulse-processing 1.5s ease-in-out infinite;
+}
+
+/* Shimmer loading effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F7F8FC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
